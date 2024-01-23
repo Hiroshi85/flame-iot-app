@@ -1,5 +1,7 @@
 import 'package:flame_iot_app/Components/arduino_card.dart';
+import 'package:flame_iot_app/mqtt_client.dart';
 import 'package:flutter/material.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -28,13 +30,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late Future<MqttServerClient?> mqttConnection;
+  late MqttEmqxClient mqttEmqxClient;
   @override
   void initState() {
     super.initState();
+    mqttEmqxClient = MqttEmqxClient();
+    mqttConnection = mqttEmqxClient.client;
   }
 
   List<ArduinoCard> arduinos() {
-    return const [ArduinoCard()];
+    return [
+      ArduinoCard(
+        mqttEmqxClient: mqttEmqxClient,
+      )
+    ];
   }
 
   @override
@@ -44,11 +54,21 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(widget.title, style: const TextStyle(color: Colors.white)),
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        scrollDirection: Axis.vertical,
-        children: arduinos(),
-      ),
+      body: FutureBuilder<MqttServerClient?>(
+          future: mqttConnection,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+              return ListView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                scrollDirection: Axis.vertical,
+                children: arduinos(),
+              );
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return const CircularProgressIndicator();
+          }),
     );
   }
 }
