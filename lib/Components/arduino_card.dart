@@ -2,6 +2,8 @@ import 'package:flame_iot_app/Components/topic_tile.dart';
 import 'package:flame_iot_app/mqtt_client.dart';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
+import 'package:timezone/standalone.dart' as tz;
+import 'package:timezone/timezone.dart';
 
 class ArduinoCard extends StatefulWidget {
   final MqttEmqxClient mqttEmqxClient;
@@ -12,6 +14,14 @@ class ArduinoCard extends StatefulWidget {
 }
 
 class _ArduinoCardState extends State<ArduinoCard> {
+  late Location location;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    location = tz.getLocation('America/Lima');
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<MqttReceivedMessage<MqttMessage>>>(
@@ -66,7 +76,7 @@ class _ArduinoCardState extends State<ArduinoCard> {
                                 ],
                               ),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             TopicTile(
                                 tema: "Fuego",
                                 color: datos['flame']
@@ -78,7 +88,7 @@ class _ArduinoCardState extends State<ArduinoCard> {
                         ),
                       ),
                       Text(
-                        'Recibido a: ${DateTime.now().toString().substring(0, 19)}',
+                        'Recibido a: ${tz.TZDateTime.from(DateTime.now(), location)}',
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
