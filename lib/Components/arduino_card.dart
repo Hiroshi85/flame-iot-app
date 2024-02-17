@@ -78,12 +78,23 @@ class _ArduinoCardState extends State<ArduinoCard> {
                             ),
                             const SizedBox(width: 10),
                             TopicTile(
-                                tema: "Fuego",
-                                color: datos['flame']
-                                    ? Colors.red
-                                    : const Color.fromARGB(255, 155, 155, 155),
-                                valor: datos['flame'] ? "SÍ" : "NO",
-                                topicIcon: Icons.local_fire_department_rounded)
+                              tema: "Fuego",
+                              color: datos['flame']
+                                  ? Colors.red
+                                  : datos['flame_p']
+                                      ? const Color.fromARGB(255, 255, 140, 0)
+                                      : const Color.fromARGB(
+                                          255, 155, 155, 155),
+                              valor: datos['flame']
+                                  ? "SÍ"
+                                  : datos['flame_p']
+                                      ? "POSIBLE"
+                                      : "NO",
+                              topicIcon: Icons.local_fire_department_rounded,
+                              isWarning: datos['flame']
+                                  ? datos['flame']
+                                  : datos['flame_p'],
+                            ),
                           ],
                         ),
                       ),

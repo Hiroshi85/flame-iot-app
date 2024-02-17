@@ -43,7 +43,7 @@ class MqttEmqxClient {
 
     if (_client.connectionStatus!.state == MqttConnectionState.connected) {
       print('client connected');
-      const topic = 'datos-view';
+      const topic = 'predicciones-view';
       _client.subscribe(topic, MqttQos.atMostOnce);
       print('Subscribing to the $topic topic');
 
