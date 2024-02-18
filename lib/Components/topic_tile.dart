@@ -28,24 +28,23 @@ class _TopicTileState extends State<TopicTile> {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5), color: widget.color),
-        child: Row(
+        child: Wrap(
+          spacing: 8.0,
+          runSpacing: 4.0,
           children: <Widget>[
             Icon(
               widget.topicIcon,
               color: Colors.white,
             ),
-            const SizedBox(width: 2),
             Text(
               "${widget.tema}: ",
               style: const TextStyle(color: Colors.white),
             ),
-            const SizedBox(width: 2),
             Text(widget.valor,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 )),
-            const SizedBox(width: 3),
             if (widget.isWarning)
               const Icon(
                 Icons.warning_sharp,

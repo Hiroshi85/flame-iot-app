@@ -81,19 +81,26 @@ class _ArduinoCardState extends State<ArduinoCard> {
                               tema: "Fuego",
                               color: datos['flame']
                                   ? Colors.red
-                                  : datos['flame_p']
+                                  : datos['flame_p'] >= 0.8
                                       ? const Color.fromARGB(255, 255, 140, 0)
-                                      : const Color.fromARGB(
-                                          255, 155, 155, 155),
+                                      : datos['flame_p'] >= 0.5
+                                          ? const Color.fromARGB(
+                                              255, 255, 220, 20)
+                                          : const Color.fromARGB(
+                                              255, 155, 155, 155),
                               valor: datos['flame']
                                   ? "SÍ"
-                                  : datos['flame_p']
-                                      ? "POSIBLE"
-                                      : "NO",
+                                  : datos['flame_p'] >= 0.8
+                                      ? "PROBABILIDAD MUY ALTA"
+                                      : datos['flame_p'] >= 0.5
+                                          ? "PROBABLE"
+                                          : "NO / Baja probabilidad",
                               topicIcon: Icons.local_fire_department_rounded,
                               isWarning: datos['flame']
                                   ? datos['flame']
-                                  : datos['flame_p'],
+                                  : datos['flame_p'] >= 0.5
+                                      ? 1
+                                      : 0,
                             ),
                           ],
                         ),
