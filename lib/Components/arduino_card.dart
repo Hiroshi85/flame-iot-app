@@ -80,12 +80,12 @@ class _ArduinoCardState extends State<ArduinoCard> {
                             TopicTile(
                               tema: "Fuego",
                               color: datos['flame']
-                                  ? Colors.red
+                                  ? const Color.fromARGB(255, 255, 0, 0)
                                   : datos['flame_p'] >= 0.8
-                                      ? const Color.fromARGB(255, 255, 140, 0)
+                                      ? const Color.fromARGB(255, 255, 99, 9)
                                       : datos['flame_p'] >= 0.5
                                           ? const Color.fromARGB(
-                                              255, 255, 220, 20)
+                                              255, 255, 196, 0)
                                           : const Color.fromARGB(
                                               255, 155, 155, 155),
                               valor: datos['flame']
@@ -99,8 +99,8 @@ class _ArduinoCardState extends State<ArduinoCard> {
                               isWarning: datos['flame']
                                   ? datos['flame']
                                   : datos['flame_p'] >= 0.5
-                                      ? 1
-                                      : 0,
+                                      ? true
+                                      : false,
                             ),
                           ],
                         ),
